@@ -5,7 +5,7 @@ This repository contains Python scripts for Blender, specifically designed to or
 ## 📂 Repository Structure
 
 - **BlenderCode/**: Contains the main Python scripts.
-- **mainScene.py**: The core script that organizes objects in the Blender scene into a structured hierarchy, making it easier to manage complex planetary models.
+- **mainScene.py**: The core script that organizes objects in the Blender scene into a structured hierarchy.
 
 ## 🚀 Prerequisites
 
@@ -21,12 +21,13 @@ Before using these scripts, ensure you have the following:
    ```bash
    git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
    ```
+2. **Modify your paths** in the mainScene.py script to match your project's environment.
 
-2. **Open Blender** and navigate to the **Scripting** workspace.
+3. **Open Blender** and navigate to the **Scripting** workspace.
 
-3. **Load the `mainScene.py` script** inside Blender's Text Editor.
+4. **Load the `mainScene.py` script** inside Blender's Text Editor.
+5. **Run the script** to automatically structure the objects in your scene.
 
-4. **Run the script** to automatically structure the objects in your scene.
 
 ## 🤝 Contributing
 
