@@ -21,7 +21,7 @@ Before using these scripts, ensure you have the following:
    ```bash
    git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
    ```
-2. **Modify your paths** in the mainScene.py script to match your project's environment.
+2. **Modify your paths** in the `mainScene.py` script to match your project's environment.
 
 3. **Open Blender** and navigate to the **Scripting** workspace.
 
