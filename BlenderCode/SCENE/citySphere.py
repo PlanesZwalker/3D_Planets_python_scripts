@@ -21,7 +21,7 @@ def create_sphere(location, radius=0.5):
     return sphere
 
 def animate_spheres_worm(spheres):
-    frames = 300
+    frames = 250
     delay_frames = 4
     amplitude = 2.5
     frequency = 2.5
@@ -43,14 +43,14 @@ def animate_spheres_worm(spheres):
 
             # More complex rotation
             sphere.rotation_euler = (
-                math.sin(delayed_frame * 0.15) * 0.7,
-                math.cos(delayed_frame * 0.12) * 0.7,
+                math.sin(delayed_frame * 0.15) *  math.cos(delayed_frame * 0.12),
+                math.cos(delayed_frame * 0.12) * math.sin(delayed_frame * 0.15),
                 t * math.pi * 2
             )
             sphere.keyframe_insert(data_path="rotation_euler", frame=frame)
 
             # Add scale animation
-            scale = 1 + math.sin(delayed_frame * 0.2) * 0.2
+            scale = 1 + math.sin(delayed_frame * 0.2) *  math.cos(delayed_frame * 0.12)
             sphere.scale = (scale, scale, scale)
             sphere.keyframe_insert(data_path="scale", frame=frame)
 
@@ -65,10 +65,10 @@ def main():
 
     # Create spheres with varying sizes
     spheres = []
-    num_spheres = 15
+    num_spheres = 45
     for i in range(num_spheres):
         radius = 0.25 + random.random() * 0.15
-        sphere = create_sphere(location=(i * -1, 0, 2), radius=radius)
+        sphere = create_sphere(location=(i * -random.random() * 0.15, 0, 2), radius=radius)
 
         # Assign different planet shaders
         shader_types = list(PlanetShaders.create_shader_collection().keys())
