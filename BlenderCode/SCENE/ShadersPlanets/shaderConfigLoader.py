@@ -1,6 +1,8 @@
 import json
-from typing import Dict
+import os
 from dataclasses import dataclass
+from typing import Dict
+
 
 @dataclass(frozen=True)
 class ShaderConfig:
@@ -11,9 +13,13 @@ class ShaderConfig:
     color_secondary: tuple
     shader_type: str
 
+
 class ShaderConfigLoader:
     @staticmethod
-    def load_config(config_path: str = 'planet_shader_config.json') -> Dict[str, ShaderConfig]:
+    def load_config(config_path: str = None) -> Dict[str, ShaderConfig]:
+        if config_path is None:
+            config_path = os.path.join(os.path.dirname(__file__), 'planet_shader_config.json')
+
         try:
             with open(config_path, 'r') as file:
                 configs = json.load(file)

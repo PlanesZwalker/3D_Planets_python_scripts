@@ -3,7 +3,7 @@
 This repository contains Python scripts for Blender, specifically designed to organize the hierarchy of objects in a 3D scene, particularly for planetary models.
 
 ## 🌐 Overview
-[![Video Title](https://cdnb.artstation.com/p/assets/covers/images/084/463/107/20250201110237/smaller_square/anne-j-jadeau-anne-j-jadeau-0060.jpg?1738429358)](https://cdn.artstation.com/p/video_sources/002/415/712/0001-0250-1-1.mp4)
+[![Video Title](https://cdnb.artstation.com/p/assets/covers/images/084/463/107/20250201110237/smaller_square/anne-j-jadeau-anne-j-jadeau-0060.jpg?1738429358)](https://annj4.artstation.com/projects/5WPW8E?album_id=9087190)
 
 ## 📂 Repository Structure
 

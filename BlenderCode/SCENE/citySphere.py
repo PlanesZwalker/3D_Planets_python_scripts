@@ -1,13 +1,14 @@
 import math
-import random
-import bpy
-import sys
 import os
+import random
+import sys
 
-# Add the directory containing planetShaders.py to the Python path
+import bpy
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from planetShaders import PlanetShaders, register
+from ShadersPlanets.planetShaders import PlanetShaders, register
+
 
 def create_sphere(location, radius=0.5):
     bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, location=location, segments=32, ring_count=16)
@@ -19,6 +20,7 @@ def create_sphere(location, radius=0.5):
     subsurf.render_levels = 3
 
     return sphere
+
 
 def animate_spheres_worm(spheres):
     frames = 250
@@ -43,16 +45,17 @@ def animate_spheres_worm(spheres):
 
             # More complex rotation
             sphere.rotation_euler = (
-                math.sin(delayed_frame * 0.15) *  math.cos(delayed_frame * 0.12),
+                math.sin(delayed_frame * 0.15) * math.cos(delayed_frame * 0.12),
                 math.cos(delayed_frame * 0.12) * math.sin(delayed_frame * 0.15),
                 t * math.pi * 2
             )
             sphere.keyframe_insert(data_path="rotation_euler", frame=frame)
 
             # Add scale animation
-            scale = 1 + math.sin(delayed_frame * 0.2) *  math.cos(delayed_frame * 0.12)
+            scale = 1 + math.sin(delayed_frame * 0.2) * math.cos(delayed_frame * 0.12)
             sphere.scale = (scale, scale, scale)
             sphere.keyframe_insert(data_path="scale", frame=frame)
+
 
 def main():
     print("Executing enhanced spheres animations...")
@@ -102,6 +105,7 @@ def main():
             print(f"Sphere {sphere.name}: Location {sphere.location}, Visible {sphere.visible_get()}")
 
     print("Enhanced spheres animation completed.")
+
 
 if __name__ == "__main__":
     main()

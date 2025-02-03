@@ -1,0 +1,226 @@
+{
+  "Ultra_Gas_Giant": {
+    "noise_scale": 10.0,
+    "noise_detail": 20.0,
+    "color_primary": [0.8, 0.4, 0.1],
+    "color_secondary": [0.2, 0.1, 0.05],
+    "shader_type": "principled"
+  },
+  "Ultra_Ice_Planet": {
+    "noise_scale": 20.0,
+    "noise_detail": 15.0,
+    "color_primary": [0.8, 0.9, 1.0],
+    "color_secondary": [0.4, 0.6, 0.8],
+    "shader_type": "glass"
+  },
+  "Ultra_Lava_Planet": {
+    "noise_scale": 15.0,
+    "noise_detail": 20.0,
+    "color_primary": [1.0, 0.3, 0.1],
+    "color_secondary": [0.4, 0.1, 0.05],
+    "shader_type": "emission"
+  },
+  "Ultra_Earth_Like": {
+    "noise_scale": 15.0,
+    "noise_detail": 16.0,
+    "color_primary": [0.1, 0.4, 0.1],
+    "color_secondary": [0.2, 0.6, 0.8],
+    "shader_type": "principled"
+  },
+  "Ultra_Crystal_Planet": {
+    "noise_scale": 25.0,
+    "noise_detail": 15.0,
+    "color_primary": [0.2, 0.8, 0.8],
+    "color_secondary": [0.8, 0.2, 0.8],
+    "shader_type": "glass"
+  },
+  "Ultra_Plasma_Planet": {
+    "noise_scale": 8.0,
+    "noise_detail": 16.0,
+    "color_primary": [0.1, 1.0, 0.5],
+    "color_secondary": [1.0, 0.2, 0.8],
+    "shader_type": "emission"
+  },
+  "Ultra_Desert_Planet": {
+    "noise_scale": 20.0,
+    "noise_detail": 15.0,
+    "color_primary": [0.8, 0.6, 0.3],
+    "color_secondary": [0.5, 0.3, 0.1],
+    "shader_type": "principled"
+  },
+  "Ultra_Ocean_Planet": {
+    "noise_scale": 10.0,
+    "noise_detail": 20.0,
+    "color_primary": [0.1, 0.3, 0.8],
+    "color_secondary": [0.3, 0.6, 0.9],
+    "shader_type": "glass"
+  },
+  "Ultra_Volcanic_Planet": {
+    "noise_scale": 15.0,
+    "noise_detail": 20.0,
+    "color_primary": [0.8, 0.2, 0.1],
+    "color_secondary": [0.2, 0.1, 0.05],
+    "shader_type": "emission"
+  },
+  "Ultra_Ringed_Planet": {
+    "noise_scale": 12.0,
+    "noise_detail": 15.0,
+    "color_primary": [0.4, 0.3, 0.2],
+    "color_secondary": [0.7, 0.6, 0.5],
+    "shader_type": "principled"
+  },
+  "Quantum_Crystal": {
+    "noise_scale": 30.0,
+    "noise_detail": 25.0,
+    "color_primary": [0.9, 0.2, 0.8],
+    "color_secondary": [0.2, 0.8, 0.9],
+    "shader_type": "crystal_emission"
+  },
+  "Nebula_Core": {
+    "noise_scale": 15.0,
+    "noise_detail": 30.0,
+    "color_primary": [0.7, 0.1, 0.9],
+    "color_secondary": [0.1, 0.5, 1.0],
+    "shader_type": "nebula"
+  },
+  "Holographic_World": {
+    "noise_scale": 25.0,
+    "noise_detail": 20.0,
+    "color_primary": [0.8, 0.9, 1.0],
+    "color_secondary": [1.0, 0.3, 0.7],
+    "shader_type": "holographic"
+  },
+  "Bioluminescent_Planet": {
+    "noise_scale": 18.0,
+    "noise_detail": 22.0,
+    "color_primary": [0.2, 0.9, 0.4],
+    "color_secondary": [0.1, 0.4, 0.2],
+    "shader_type": "emission"
+  },
+  "Diamond_Core": {
+    "noise_scale": 35.0,
+    "noise_detail": 28.0,
+    "color_primary": [0.95, 0.95, 1.0],
+    "color_secondary": [0.8, 0.8, 0.9],
+    "shader_type": "glass"
+  },
+  "Plasma_Storm": {
+    "noise_scale": 12.0,
+    "noise_detail": 25.0,
+    "color_primary": [1.0, 0.4, 0.0],
+    "color_secondary": [0.2, 0.0, 1.0],
+    "shader_type": "emission"
+  },
+  "Metallic_Core": {
+    "noise_scale": 28.0,
+    "noise_detail": 18.0,
+    "color_primary": [0.8, 0.8, 0.9],
+    "color_secondary": [0.6, 0.6, 0.7],
+    "shader_type": "principled"
+  },
+  "Aurora_World": {
+    "noise_scale": 20.0,
+    "noise_detail": 24.0,
+    "color_primary": [0.1, 0.8, 0.4],
+    "color_secondary": [0.4, 0.1, 0.8],
+    "shader_type": "emission"
+  },
+  "Quantum_Plasma": {
+    "noise_scale": 15.0,
+    "noise_detail": 30.0,
+    "color_primary": [0.9, 0.1, 0.9],
+    "color_secondary": [0.1, 0.9, 0.9],
+    "shader_type": "emission"
+  },
+  "Dark_Matter": {
+    "noise_scale": 40.0,
+    "noise_detail": 35.0,
+    "color_primary": [0.1, 0.0, 0.2],
+    "color_secondary": [0.0, 0.0, 0.1],
+    "shader_type": "principled"
+  },
+  "Rainbow_Crystal": {
+    "noise_scale": 25.0,
+    "noise_detail": 20.0,
+    "color_primary": [1.0, 0.0, 0.0],
+    "color_secondary": [0.0, 1.0, 1.0],
+    "shader_type": "glass"
+  },
+  "Neutron_Core": {
+    "noise_scale": 8.0,
+    "noise_detail": 40.0,
+    "color_primary": [0.9, 0.9, 1.0],
+    "color_secondary": [0.7, 0.7, 0.8],
+    "shader_type": "emission"
+  },
+  "Cosmic_Ice": {
+    "noise_scale": 30.0,
+    "noise_detail": 25.0,
+    "color_primary": [0.8, 0.9, 1.0],
+    "color_secondary": [0.6, 0.8, 0.9],
+    "shader_type": "glass"
+  },
+  "Solar_Plasma": {
+    "noise_scale": 10.0,
+    "noise_detail": 35.0,
+    "color_primary": [1.0, 0.6, 0.0],
+    "color_secondary": [1.0, 0.2, 0.0],
+    "shader_type": "emission"
+  },
+  "Void_Crystal": {
+    "noise_scale": 35.0,
+    "noise_detail": 30.0,
+    "color_primary": [0.1, 0.0, 0.2],
+    "color_secondary": [0.2, 0.0, 0.4],
+    "shader_type": "crystal_emission"
+  },
+  "Ethereal_Gas": {
+    "noise_scale": 15.0,
+    "noise_detail": 28.0,
+    "color_primary": [0.5, 0.8, 1.0],
+    "color_secondary": [0.8, 0.5, 1.0],
+    "shader_type": "nebula"
+  },
+  "Quantum_Void": {
+    "noise_scale": 20.0,
+    "noise_detail": 32.0,
+    "color_primary": [0.0, 0.2, 0.4],
+    "color_secondary": [0.2, 0.0, 0.4],
+    "shader_type": "holographic"
+  },
+  "Stellar_Core": {
+    "noise_scale": 12.0,
+    "noise_detail": 38.0,
+    "color_primary": [1.0, 0.8, 0.0],
+    "color_secondary": [1.0, 0.4, 0.0],
+    "shader_type": "emission"
+  },
+  "Time_Crystal": {
+    "noise_scale": 28.0,
+    "noise_detail": 26.0,
+    "color_primary": [0.4, 0.8, 0.9],
+    "color_secondary": [0.9, 0.4, 0.8],
+    "shader_type": "crystal_emission"
+  },
+  "Cosmic_Storm": {
+    "noise_scale": 18.0,
+    "noise_detail": 34.0,
+    "color_primary": [0.6, 0.0, 1.0],
+    "color_secondary": [0.0, 0.4, 1.0],
+    "shader_type": "nebula"
+  },
+  "Solar_Inferno": {
+    "noise_scale": 8.0,
+    "noise_detail": 45.0,
+    "color_primary": [1.0, 0.3, 0.0],
+    "color_secondary": [1.0, 0.8, 0.0],
+    "shader_type": "solar_fire"
+  },
+  "Magma_Core": {
+      "noise_scale": 15.0,
+      "noise_detail": 35.0,
+      "color_primary": [0.8, 0.1, 0.0],
+      "color_secondary": [0.3, 0.0, 0.0],
+      "shader_type": "inferno"
+  }
+}
