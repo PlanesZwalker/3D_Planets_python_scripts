@@ -19,31 +19,35 @@ class PlanetShaders:
         }
 
     @staticmethod
-    def apply_shader(context):
-        """Apply the selected shader to the active object."""
+    def apply_shader(obj, shader_name):
+        """Apply the selected shader to a specific object."""
+
+        if not obj or not obj.data:
+            print("ERROR: No valid object provided for shader application.")
+            return
+
         config_path = os.path.join(os.path.dirname(__file__), 'shader_planet_config.json')
         configs = ShaderConfigLoader.load_config(config_path)
 
-        # Get the selected shader name from the scene's property
-        shader_name = context.scene.get("planet_shader", "Ultra_Gas_Giant")  # Access scene property directly
+        # Ensure shader exists
+        if shader_name not in configs:
+            print(f"WARNING: Shader '{shader_name}' not found in config. Using default.")
+            shader_name = "Ultra_Gas_Giant"  # Fallback shader
 
-        # Check if the shader exists in the config
-        if shader_name in configs:
-            object_data = context.object.data  # Access the active object data
-            object_data.materials.clear()  # Clear existing materials
+        shader_config = configs[shader_name]  # Get shader settings
 
-            shader_config = configs[shader_name]  # Access the ShaderConfig object
+        # Ensure the object has material slots
+        obj.data.materials.clear()  # Remove existing materials
+        material = PlanetShaderFactory.create_shader(
+            shader_config.name, shader_config.noise_scale,
+            shader_config.noise_detail, shader_config.color_primary,
+            shader_config.color_secondary, shader_config.shader_type,
+            shader_config.description, shader_config.emission_strength
+        )
 
-            # Create the material using the attributes of the shader configuration
-            material = PlanetShaderFactory.create_shader(
-                shader_config.name, shader_config.noise_scale,
-                shader_config.noise_detail, shader_config.color_primary,
-                shader_config.color_secondary, shader_config.shader_type,
-                shader_config.description, shader_config.emission_strength
-            )
+        obj.data.materials.append(material)  # Assign new shader
 
-            # Apply the created material
-            object_data.materials.append(material)
+        print(f"Shader '{shader_name}' applied to {obj.name} successfully.")
 
 
 def update_shader_property(self, context):

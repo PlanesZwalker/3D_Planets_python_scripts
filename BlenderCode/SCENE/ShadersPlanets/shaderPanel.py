@@ -1,35 +1,56 @@
 import sys
-
-try:
-    import bpy
-except ImportError:
-    print("Error: 'bpy' module not found. Make sure you are running this script inside Blender.")
-    sys.exit(1)
-
-# Import custom modules
+import bpy
+import logging
 from ShadersPlanets.shaderConfigLoader import ShaderConfigLoader
 
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Define Shader Operators (Fixes 'unknown operator' issue)
+
+# Define Shader Operators
 class OBJECT_OT_UpdateShader(bpy.types.Operator):
+    """Apply the selected planet shader"""
     bl_idname = "object.update_shader"
-    bl_label = "Update Shader"
-    bl_description = "Applies the selected planet shader"
+    bl_label = "Apply Shader"
 
     def execute(self, context):
-        print("Applying shader...")
-        # Implement your shader application logic here
+        scene = context.scene
+        selected_planet = scene.selected_planet_name
+
+        # Ensure a planet is selected before applying
+        if not selected_planet:
+            self.report({'WARNING'}, "No planet selected.")
+            return {'CANCELLED'}
+
+        # Find the active object
+        obj = context.active_object
+        if not obj:
+            self.report({'WARNING'}, "No active object to apply shader.")
+            return {'CANCELLED'}
+
+        logger.info(f"Applying shader to {obj.name}: {selected_planet}")
+
+        # Apply shader only if the object is a planet
+        if "planet" in obj.name.lower():
+            scene.planet_name = selected_planet  # Now apply it
+            self.report({'INFO'}, f"Shader applied: {selected_planet}")
+        else:
+            self.report({'WARNING'}, "Active object is not a planet.")
+
         return {'FINISHED'}
 
 
 class OBJECT_OT_ResetShader(bpy.types.Operator):
+    """Reset shader settings to default"""
     bl_idname = "object.reset_shader"
     bl_label = "Reset Shader"
-    bl_description = "Resets shader settings to default"
 
     def execute(self, context):
-        print("Resetting shader settings...")
-        # Implement shader reset logic here
+        scene = context.scene
+        scene.planet_name = "Ultra_Gas_Giant"
+        scene.selected_planet_name = "Ultra_Gas_Giant"
+        self.report({'INFO'}, "Shader reset to default.")
         return {'FINISHED'}
 
 
@@ -46,60 +67,41 @@ class ShaderPanel(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
-        # Ensure properties exist to avoid errors
-        required_props = ["planet_name", "color_primary", "color_secondary", "noise_scale", "noise_detail"]
-        for prop in required_props:
-            if not hasattr(scene, prop):
-                layout.label(text=f"Error: Missing property '{prop}'", icon='ERROR')
-                return
-
         # Material Preview
         box = layout.box()
         box.label(text="Material Preview", icon='MATERIAL')
         row = box.row()
         row.template_ID_preview(context.active_object, "active_material", new="material.new")
 
-        # Planet Type Selection
+        # Planet Type Selection (Delayed Application)
         box = layout.box()
         box.label(text="Planet Type", icon='WORLD_DATA')
-        box.prop(scene, "planet_name", text="")
+        box.prop(scene, "selected_planet_name", text="")
 
-        # Load Shader Configurations
-        try:
-            shader_configs = ShaderConfigLoader.load_config()
-        except Exception as e:
-            layout.label(text=f"Error loading shader config: {e}", icon='ERROR')
-            return
+        # Noise Parameters
+        noise_box = layout.box()
+        noise_box.label(text="Noise Settings", icon='TEXTURE')
+        col = noise_box.column(align=True)
+        col.prop(scene, "noise_scale", slider=True)
+        col.prop(scene, "noise_detail", slider=True)
+        col.prop(scene, "noise_roughness", slider=True)
+        col.prop(scene, "noise_distortion", slider=True)
 
-        planet_name = scene.planet_name
+        # Color Settings
+        color_box = layout.box()
+        color_box.label(text="Color Settings", icon='COLOR')
+        col = color_box.column(align=True)
+        col.prop(scene, "color_primary", text="Primary")
+        col.prop(scene, "color_secondary", text="Secondary")
+        col.prop(scene, "color_mix_factor", slider=True)
 
-        if planet_name in shader_configs:
-            planet_config = shader_configs[planet_name]
-
-            # Noise Parameters
-            noise_box = layout.box()
-            noise_box.label(text="Noise Settings", icon='TEXTURE')
-            col = noise_box.column(align=True)
-            col.prop(scene, "noise_scale", slider=True)
-            col.prop(scene, "noise_detail", slider=True)
-            col.prop(scene, "noise_roughness", slider=True)
-            col.prop(scene, "noise_distortion", slider=True)
-
-            # Color Settings
-            color_box = layout.box()
-            color_box.label(text="Color Settings", icon='COLOR')
-            col = color_box.column(align=True)
-            col.prop(scene, "color_primary", text="Primary")
-            col.prop(scene, "color_secondary", text="Secondary")
-            col.prop(scene, "color_mix_factor", slider=True)
-
-            # Surface Properties
-            surface_box = layout.box()
-            surface_box.label(text="Surface Properties", icon='SURFACE_DATA')
-            col = surface_box.column(align=True)
-            col.prop(scene, "roughness", slider=True)
-            col.prop(scene, "metallic", slider=True)
-            col.prop(scene, "emission_strength", slider=True)
+        # Surface Properties
+        surface_box = layout.box()
+        surface_box.label(text="Surface Properties", icon='SURFACE_DATA')
+        col = surface_box.column(align=True)
+        col.prop(scene, "roughness", slider=True)
+        col.prop(scene, "metallic", slider=True)
+        col.prop(scene, "emission_strength", slider=True)
 
         # Action Buttons
         row = layout.row(align=True)
@@ -116,7 +118,13 @@ def register():
     bpy.types.Scene.planet_name = bpy.props.StringProperty(
         name="Planet Name",
         default="Ultra_Gas_Giant",
-        description="Name of the selected planet type"
+        description="Currently applied planet type"
+    )
+
+    bpy.types.Scene.selected_planet_name = bpy.props.StringProperty(
+        name="Selected Planet",
+        default="Ultra_Gas_Giant",
+        description="Temporarily selected planet before applying"
     )
 
     bpy.types.Scene.noise_scale = bpy.props.FloatProperty(
@@ -182,7 +190,7 @@ def register():
         max=10.0
     )
 
-    print("Shader Panel and properties successfully registered!")
+    logger.info("Shader Panel and properties successfully registered!")
 
 
 # Unregister Properties
@@ -192,6 +200,7 @@ def unregister():
     bpy.utils.unregister_class(OBJECT_OT_ResetShader)
 
     del bpy.types.Scene.planet_name
+    del bpy.types.Scene.selected_planet_name
     del bpy.types.Scene.noise_scale
     del bpy.types.Scene.noise_detail
     del bpy.types.Scene.noise_roughness
@@ -203,7 +212,7 @@ def unregister():
     del bpy.types.Scene.metallic
     del bpy.types.Scene.emission_strength
 
-    print("Shader Panel and properties successfully unregistered!")
+    logger.info("Shader Panel and properties successfully unregistered!")
 
 
 # Main Function

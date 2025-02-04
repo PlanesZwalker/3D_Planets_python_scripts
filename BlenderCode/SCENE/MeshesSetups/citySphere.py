@@ -80,10 +80,10 @@ def main():
 
         # Assign different planet shaders
         shader_name = random.choice(shader_types)
-        sphere["planet_shader"] = shader_name  # Assign the shader name to the sphere
+        sphere["planet_shader"] = shader_name  # Store shader name as a custom property
 
-        # Apply the shader (make sure you're applying it through the scene)
-        PlanetShaders.apply_shader(bpy.context)
+        # Apply shader **per sphere**
+        PlanetShaders.apply_shader(sphere, shader_name)  # <-- Correctly applying shader per object!
 
         spheres.append(sphere)
 
