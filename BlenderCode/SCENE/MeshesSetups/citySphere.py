@@ -5,10 +5,12 @@ import sys
 
 import bpy
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Get the absolute path of the main SCENE folder
+scene_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(scene_path)
 
-from ShadersPlanets.planetShaders import PlanetShaders, register
-
+# Import the PlanetShaders module
+from ShadersPlanets.shaderPlanet import PlanetShaders, register
 
 def create_sphere(location, radius=0.5):
     bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, location=location, segments=32, ring_count=16)
@@ -60,26 +62,28 @@ def animate_spheres_worm(spheres):
 def main():
     print("Executing enhanced spheres animations...")
 
-    # Register planet shader property
+    # Register planet shader property (this should be done only once at the start)
     register()
 
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete()
 
-    # Create spheres with varying sizes
+    # Get all available shader types
+    shader_types = list(PlanetShaders.create_shader_collection().keys())
+    num_spheres = len(shader_types)  # One sphere per shader type
+
+    # Create spheres with unique shaders
     spheres = []
-    num_spheres = 45
     for i in range(num_spheres):
         radius = 0.25 + random.random() * 0.15
         sphere = create_sphere(location=(i * -random.random() * 0.15, 0, 2), radius=radius)
 
         # Assign different planet shaders
-        shader_types = list(PlanetShaders.create_shader_collection().keys())
-        if shader_types:
-            sphere["planet_shader"] = random.choice(shader_types)
+        shader_name = random.choice(shader_types)
+        sphere["planet_shader"] = shader_name  # Assign the shader name to the sphere
 
-        # Apply the shader
-        PlanetShaders.apply_shader(sphere)
+        # Apply the shader (make sure you're applying it through the scene)
+        PlanetShaders.apply_shader(bpy.context)
 
         spheres.append(sphere)
 
@@ -90,10 +94,10 @@ def main():
     bpy.context.scene.cycles.samples = 256
     bpy.context.scene.cycles.use_denoising = True
 
-    # Set world background to dark
+    # Set world background to dark (ensure it's in RGBA format)
     world = bpy.context.scene.world
     world.use_nodes = True
-    world.node_tree.nodes["Background"].inputs[0].default_value = (0.01, 0.01, 0.02, 1)
+    world.node_tree.nodes["Background"].inputs[0].default_value = (0.01, 0.01, 0.02, 1)  # Added Alpha (1.0)
     world.node_tree.nodes["Background"].inputs[1].default_value = 1.0
 
     # Debug: Print sphere positions and visibility
@@ -101,8 +105,6 @@ def main():
     for frame in range(scene.frame_start, scene.frame_end + 1):
         scene.frame_set(frame)
         print(f"Frame {frame}:")
-        for sphere in spheres:
-            print(f"Sphere {sphere.name}: Location {sphere.location}, Visible {sphere.visible_get()}")
 
     print("Enhanced spheres animation completed.")
 
