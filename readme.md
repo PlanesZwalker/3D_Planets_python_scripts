@@ -16,6 +16,18 @@ Before using these scripts, ensure you have the following:
 
 - **Blender**: Download and install the latest version from the [official Blender website](https://www.blender.org/download/).
 - **Python**: If you plan to modify or extend the scripts, having Python installed on your system is required.
+## 📦 Dependencies
+
+The following Python packages are required to run the scripts:
+
+- **bpy**: Blender's Python API (included with Blender)
+- **numpy**: For numerical operations
+- **mathutils**: For mathematical operations (included with Blender)
+
+Install additional dependencies using pip:
+
+```bash
+pip install numpy
 
 ## 📥 Installation & Usage
 
@@ -31,6 +43,14 @@ Before using these scripts, ensure you have the following:
 4. **Load the `mainScene.py` script** inside Blender's Text Editor.
 5. **Run the script** to automatically structure the objects in your scene.
 
+## 🔮 Future Improvements
+
+### Interactive Scene Organization Panels
+Quick-access panels for real-time component management:
+- **Shader Panel**: Live material editing and shader parameter adjustments
+- **Camera Panel**: Dynamic camera property modifications and viewport preview
+- **Light Panel**: Real-time lighting adjustments and intensity control
+- **Mesh Panel**: Direct mesh property modifications and transform controls
 
 ## 🤝 Contributing
 
