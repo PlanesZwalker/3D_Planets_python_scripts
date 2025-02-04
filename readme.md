@@ -1,65 +1,70 @@
 # 3D Planets Python Scripts for Blender
 
-This repository contains Python scripts for Blender, specifically designed to organize the hierarchy of objects in a 3D scene, particularly for planetary models.
+Blender Python scripts for organizing planetary models and 3D scene hierarchies.
 
 ## 🌐 Overview
 [![Video Title](https://cdnb.artstation.com/p/assets/covers/images/084/463/107/20250201110237/smaller_square/anne-j-jadeau-anne-j-jadeau-0060.jpg?1738429358)](https://annj4.artstation.com/projects/5WPW8E?album_id=9087190)
 
-## 📂 Repository Structure
+## 🚀 Quick Start
 
-- **BlenderCode/**: Contains the main Python scripts.
-- **mainScene.py**: The core script that organizes objects in the Blender scene into a structured hierarchy.
+1. **Install Prerequisites**
+   - [Blender](https://www.blender.org/download/) (latest version)
+   - Python 3.10+
+   - pip (Python package installer)
 
-## 🚀 Prerequisites
+2. **Clone & Setup**
+    \`\`\`bash
+    git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
+    cd 3D_Planets_python_scripts
+    pip install -r requirements.txt
+    \`\`\`
 
-Before using these scripts, ensure you have the following:
+3. **Launch**
+   - Open Blender
+   - Navigate to Scripting workspace
+   - Load `mainScene.py`
+   - Run script
 
-- **Blender**: Download and install the latest version from the [official Blender website](https://www.blender.org/download/).
-- **Python**: If you plan to modify or extend the scripts, having Python installed on your system is required.
-## 📦 Dependencies
+## 📂 Project Structure
+- **BlenderCode/**: Main Python scripts
+- **mainScene.py**: Core scene organization script
+- **requirements.txt**: Python dependencies
 
-The following Python packages are required to run the scripts:
+## 🐍 Development Setup
 
-- **bpy**: Blender's Python API (included with Blender)
-- **numpy**: For numerical operations
-- **mathutils**: For mathematical operations (included with Blender)
+### Python Environment
+- Python 3.10+ (match Blender version)
+- Required packages:
+    \`\`\`bash
+    pip install -r requirements.txt
+    \`\`\`
 
-Install additional dependencies using pip:
+### Blender Configuration
+1. Enable Developer Extras in Preferences
+2. Configure external IDE (optional)
+3. Set Python paths for Blender modules
 
-```bash
-pip install numpy
-
-## 📥 Installation & Usage
-
-1. **Clone the Repository**:
-
-   ```bash
-   git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
-   ```
-2. **Modify your paths** in the `mainScene.py` script to match your project's environment.
-
-3. **Open Blender** and navigate to the **Scripting** workspace.
-
-4. **Load the `mainScene.py` script** inside Blender's Text Editor.
-5. **Run the script** to automatically structure the objects in your scene.
-
-## 🔮 Future Improvements
+## 🔮 Future Features
 
 ### Interactive Scene Organization Panels
-Quick-access panels for real-time component management:
-- **Shader Panel**: Live material editing and shader parameter adjustments
-- **Camera Panel**: Dynamic camera property modifications and viewport preview
-- **Light Panel**: Real-time lighting adjustments and intensity control
-- **Mesh Panel**: Direct mesh property modifications and transform controls
+- **Shader Panel**: Live material editing
+- **Camera Panel**: Dynamic viewport controls
+- **Light Panel**: Real-time lighting adjustments
+- **Mesh Panel**: Direct mesh modifications
 
 ## 🤝 Contributing
+1. Fork repository
+2. Create feature branch
+3. Submit pull request
 
-Contributions are welcome! If you have ideas or improvements, feel free to fork the repository and submit a pull request.
+## 📫 Support
+Use GitHub issues tracker for:
+- Bug reports
+- Feature requests
+- General support
 
 ## 📜 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+MIT License - See LICENSE file
 
 ---
-
-⭐ If you find this useful, consider giving the repository a star!
+⭐ Star this repo if you find it useful!
