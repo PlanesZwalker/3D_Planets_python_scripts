@@ -1,70 +1,56 @@
-# 3D Planets Python Scripts for Blender
+# 🌍 3D Planets Python Scripts for Blender
 
-Blender Python scripts for organizing planetary models and 3D scene hierarchies.
+Powerful Blender Python scripts for organizing planetary models and 3D scene hierarchies.
 
-## 🌐 Overview
+## 🎯 Overview
 [![Video Title](https://cdnb.artstation.com/p/assets/covers/images/084/463/107/20250201110237/smaller_square/anne-j-jadeau-anne-j-jadeau-0060.jpg?1738429358)](https://annj4.artstation.com/projects/5WPW8E?album_id=9087190)
 
-## 🚀 Quick Start
+## ⚡ Quick Start Guide
 
-1. **Install Prerequisites**
-   - [Blender](https://www.blender.org/download/) (latest version)
-   - Python 3.10+
-   - pip (Python package installer)
+### 📥 Step 1: Prerequisites
+- 🎨 [Blender](https://www.blender.org/download/) (latest version)
+- 🐍 Python 3.10+
+- 📦 pip (Python package installer)
 
-2. **Clone & Setup**
-    \`\`\`bash
-    git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
-    cd 3D_Planets_python_scripts
-    pip install -r requirements.txt
-    \`\`\`
+### 🔧 Step 2: Installation
+```bash
+git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
+cd 3D_Planets_python_scripts
+pip install -r requirements.txt
+```
 
-3. **Launch**
-   - Open Blender
-   - Navigate to Scripting workspace
-   - Load `mainScene.py`
-   - Run script
+### 🚀 Step 3: Launch
+1. Launch Blender
+2. Open Scripting workspace
+3. Load \`mainScene.py\`
+4. Execute script
 
-## 📂 Project Structure
-- **BlenderCode/**: Main Python scripts
-- **mainScene.py**: Core scene organization script
-- **requirements.txt**: Python dependencies
+## 🎮 Interactive Features
 
-## 🐍 Development Setup
-
-### Python Environment
-- Python 3.10+ (match Blender version)
-- Required packages:
-    \`\`\`bash
-    pip install -r requirements.txt
-    \`\`\`
-
-### Blender Configuration
-1. Enable Developer Extras in Preferences
-2. Configure external IDE (optional)
-3. Set Python paths for Blender modules
-
-## 🔮 Future Features
-
-### Interactive Scene Organization Panels
-- **Shader Panel**: Live material editing
-- **Camera Panel**: Dynamic viewport controls
-- **Light Panel**: Real-time lighting adjustments
-- **Mesh Panel**: Direct mesh modifications
+### 🎛️ Scene Organization Panels
+- 🎨 **Shader Panel**: Real-time material editing
+- 📷 **Camera Panel**: Live viewport controls
+- 💡 **Light Panel**: Dynamic lighting controls
+- 🔷 **Mesh Panel**: Interactive mesh editing
 
 ## 🤝 Contributing
-1. Fork repository
-2. Create feature branch
-3. Submit pull request
+1. 🔄 Fork repository
+2. 🌿 Create feature branch
+3. 📤 Submit pull request
 
-## 📫 Support
-Use GitHub issues tracker for:
-- Bug reports
-- Feature requests
-- General support
+## 💬 Support
+📮 Use GitHub Issues for:
+- 🐛 Bug reports
+- 💡 Feature suggestions
+- ❓ Questions
 
-## 📜 License
+## ⚖️ License
 MIT License - See LICENSE file
 
 ---
-⭐ Star this repo if you find it useful!
+⭐ Found this helpful? Star the repository!
+
+## 🔗 Links
+- [Documentation](https://github.com/PlanesZwalker/3D_Planets_python_scripts/wiki)
+- [Report Issues](https://github.com/PlanesZwalker/3D_Planets_python_scripts/issues)
+- [Discussions](https://github.com/PlanesZwalker/3D_Planets_python_scripts/discussions)
