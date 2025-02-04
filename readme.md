@@ -11,13 +11,31 @@ Powerful Blender Python scripts for organizing planetary models and 3D scene hie
 - 🎨 [Blender](https://www.blender.org/download/) (latest version)
 - 🐍 Python 3.10+
 - 📦 pip (Python package installer)
-
 ### 🔧 Step 2: Installation
 ```bash
 git clone https://github.com/PlanesZwalker/3D_Planets_python_scripts.git
 cd 3D_Planets_python_scripts
+```
+
+Create and activate a virtual environment:
+
+On **Windows**:
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+On **MacOS/Linux**:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
+
 
 ### 🚀 Step 3: Launch
 1. Launch Blender
@@ -25,7 +43,7 @@ pip install -r requirements.txt
 3. Load \`mainScene.py\`
 4. Execute script
 
-## 🎮 Interactive Features
+## 🎮 Future Interactive Features
 
 ### 🎛️ Scene Organization Panels
 - 🎨 **Shader Panel**: Real-time material editing
