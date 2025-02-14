@@ -1,221 +1,107 @@
-import sys
 import bpy
-import logging
-from ShadersPlanets.shaderConfigLoader import ShaderConfigLoader
+from .shaderProperties import register as register_properties, unregister as unregister_properties
+from .shaderOperators import SHADER_OT_CreatePlanetShader, SHADER_OT_UpdatePlanetShader
 
-# Setup logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-
-# Define Shader Operators
-class OBJECT_OT_UpdateShader(bpy.types.Operator):
-    """Apply the selected planet shader"""
-    bl_idname = "object.update_shader"
-    bl_label = "Apply Shader"
-
-    def execute(self, context):
-        scene = context.scene
-        selected_planet = scene.selected_planet_name
-
-        # Ensure a planet is selected before applying
-        if not selected_planet:
-            self.report({'WARNING'}, "No planet selected.")
-            return {'CANCELLED'}
-
-        # Find the active object
-        obj = context.active_object
-        if not obj:
-            self.report({'WARNING'}, "No active object to apply shader.")
-            return {'CANCELLED'}
-
-        logger.info(f"Applying shader to {obj.name}: {selected_planet}")
-
-        # Apply shader only if the object is a planet
-        if "planet" in obj.name.lower():
-            scene.planet_name = selected_planet  # Now apply it
-            self.report({'INFO'}, f"Shader applied: {selected_planet}")
-        else:
-            self.report({'WARNING'}, "Active object is not a planet.")
-
-        return {'FINISHED'}
-
-
-class OBJECT_OT_ResetShader(bpy.types.Operator):
-    """Reset shader settings to default"""
-    bl_idname = "object.reset_shader"
-    bl_label = "Reset Shader"
-
-    def execute(self, context):
-        scene = context.scene
-        scene.planet_name = "Ultra_Gas_Giant"
-        scene.selected_planet_name = "Ultra_Gas_Giant"
-        self.report({'INFO'}, "Shader reset to default.")
-        return {'FINISHED'}
-
-
-# UI Panel
-class ShaderPanel(bpy.types.Panel):
+class SHADER_PT_PlanetPanel(bpy.types.Panel):
     bl_label = "Planet Shader Creator"
-    bl_idname = "VIEW3D_PT_shader_creator"
+    bl_idname = "SHADER_PT_planet_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Create'
-    bl_options = {'DEFAULT_CLOSED'}
+    bl_category = 'Shader'
+
+    @classmethod
+    def poll(cls, context):
+        return context.active_object and context.active_object.type == 'MESH'
 
     def draw(self, context):
         layout = self.layout
         scene = context.scene
+        obj = context.active_object
 
-        # Material Preview
-        box = layout.box()
-        box.label(text="Material Preview", icon='MATERIAL')
-        row = box.row()
-        row.template_ID_preview(context.active_object, "active_material", new="material.new")
+        # Material actions
+        action_box = layout.box()
+        action_box.label(text="Shader Actions")
+        row = action_box.row(align=True)
+        row.operator("shader.create_planet_shader", text="Create New Shader")
+        row.operator("shader.update_planet_shader", text="Update Shader")
 
-        # Planet Type Selection (Delayed Application)
-        box = layout.box()
-        box.label(text="Planet Type", icon='WORLD_DATA')
-        box.prop(scene, "selected_planet_name", text="")
+        # Material preview
+        preview_box = layout.box()
+        preview_box.label(text="Shader Preview")
+        if obj and obj.active_material:
+            row = preview_box.row()
+            row.template_ID(obj, "active_material", new="material.new")
+            row.template_preview(obj.active_material)
 
-        # Noise Parameters
-        noise_box = layout.box()
-        noise_box.label(text="Noise Settings", icon='TEXTURE')
-        col = noise_box.column(align=True)
-        col.prop(scene, "noise_scale", slider=True)
-        col.prop(scene, "noise_detail", slider=True)
-        col.prop(scene, "noise_roughness", slider=True)
-        col.prop(scene, "noise_distortion", slider=True)
+            # Dynamic parameters
+            if hasattr(obj.active_material, 'dynamic_shader'):
+                param_box = layout.box()
+                param_box.label(text="Dynamic Parameters")
+                col = param_box.column(align=True)
+                col.prop(obj.active_material.dynamic_shader, "noise_scale")
+                col.prop(obj.active_material.dynamic_shader, "noise_detail")
+                col.prop(obj.active_material.dynamic_shader, "noise_roughness")
+                col.prop(obj.active_material.dynamic_shader, "metallic")
+                col.prop(obj.active_material.dynamic_shader, "roughness")
+                col.prop(obj.active_material.dynamic_shader, "color_primary")
+                col.prop(obj.active_material.dynamic_shader, "color_secondary")
 
-        # Color Settings
-        color_box = layout.box()
-        color_box.label(text="Color Settings", icon='COLOR')
-        col = color_box.column(align=True)
-        col.prop(scene, "color_primary", text="Primary")
-        col.prop(scene, "color_secondary", text="Secondary")
-        col.prop(scene, "color_mix_factor", slider=True)
+            # Shader type selector
+            shader_box = layout.box()
+            shader_box.label(text="Planet Type")
+            row = shader_box.row()
+            row.prop(scene, "shader_type", text="")
 
+            # Draw shader parameters based on type
+            if scene.shader_type in ['rocky_planet', 'ice_planet', 'lava_planet', 'earth_like', 'alien_planet', 'gas_planet']:
+                self.draw_planet_parameters(layout, scene, obj.active_material)
+            else:
+                self.draw_basic_parameters(layout, scene, obj.active_material)
+
+    def draw_planet_parameters(self, layout, scene, material):
         # Surface Properties
         surface_box = layout.box()
-        surface_box.label(text="Surface Properties", icon='SURFACE_DATA')
+        surface_box.label(text="Surface Properties")
         col = surface_box.column(align=True)
-        col.prop(scene, "roughness", slider=True)
-        col.prop(scene, "metallic", slider=True)
-        col.prop(scene, "emission_strength", slider=True)
+        col.prop(scene, "noise_scale", text="Surface Detail")
+        col.prop(scene, "noise_detail", text="Detail Layers")
+        col.prop(scene, "noise_roughness", text="Surface Roughness")
 
-        # Action Buttons
-        row = layout.row(align=True)
-        row.operator("object.update_shader", text="Apply", icon='CHECKMARK')
-        row.operator("object.reset_shader", text="Reset", icon='LOOP_BACK')
+        # Color Properties
+        color_box = layout.box()
+        color_box.label(text="Color Properties")
+        col = color_box.column(align=True)
+        col.prop(scene, "color_primary", text="Primary Color")
+        col.prop(scene, "color_secondary", text="Secondary Color")
+
+        # Material Properties
+        material_box = layout.box()
+        material_box.label(text="Material Properties")
+        col = material_box.column(align=True)
+        col.prop(scene, "metallic", text="Metallic")
+        col.prop(scene, "roughness", text="Roughness")
+
+    def draw_basic_parameters(self, layout, scene, material):
+        params_box = layout.box()
+        params_box.label(text="Basic Parameters")
+        col = params_box.column(align=True)
+        col.prop(scene, "metallic", text="Metallic")
+        col.prop(scene, "roughness", text="Roughness")
+        col.prop(scene, "color_primary", text="Base Color")
 
 
-# Register Properties
 def register():
-    bpy.utils.register_class(ShaderPanel)
-    bpy.utils.register_class(OBJECT_OT_UpdateShader)
-    bpy.utils.register_class(OBJECT_OT_ResetShader)
+    bpy.utils.register_class(SHADER_OT_CreatePlanetShader)
+    bpy.utils.register_class(SHADER_OT_UpdatePlanetShader)
+    bpy.utils.register_class(SHADER_PT_PlanetPanel)
+    register_properties()
 
-    bpy.types.Scene.planet_name = bpy.props.StringProperty(
-        name="Planet Name",
-        default="Ultra_Gas_Giant",
-        description="Currently applied planet type"
-    )
-
-    bpy.types.Scene.selected_planet_name = bpy.props.StringProperty(
-        name="Selected Planet",
-        default="Ultra_Gas_Giant",
-        description="Temporarily selected planet before applying"
-    )
-
-    bpy.types.Scene.noise_scale = bpy.props.FloatProperty(
-        name="Noise Scale",
-        default=1.0,
-        min=0.0,
-        max=10.0
-    )
-    bpy.types.Scene.noise_detail = bpy.props.FloatProperty(
-        name="Noise Detail",
-        default=2.0,
-        min=0.0,
-        max=10.0
-    )
-    bpy.types.Scene.noise_roughness = bpy.props.FloatProperty(
-        name="Roughness",
-        default=0.5,
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.noise_distortion = bpy.props.FloatProperty(
-        name="Distortion",
-        default=0.0,
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.color_primary = bpy.props.FloatVectorProperty(
-        name="Primary Color",
-        subtype='COLOR',
-        default=(1.0, 1.0, 1.0),
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.color_secondary = bpy.props.FloatVectorProperty(
-        name="Secondary Color",
-        subtype='COLOR',
-        default=(0.0, 0.0, 0.0),
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.color_mix_factor = bpy.props.FloatProperty(
-        name="Color Mix",
-        default=0.5,
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.roughness = bpy.props.FloatProperty(
-        name="Surface Roughness",
-        default=0.5,
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.metallic = bpy.props.FloatProperty(
-        name="Metallic",
-        default=0.0,
-        min=0.0,
-        max=1.0
-    )
-    bpy.types.Scene.emission_strength = bpy.props.FloatProperty(
-        name="Emission",
-        default=0.0,
-        min=0.0,
-        max=10.0
-    )
-
-    logger.info("Shader Panel and properties successfully registered!")
-
-
-# Unregister Properties
 def unregister():
-    bpy.utils.unregister_class(ShaderPanel)
-    bpy.utils.unregister_class(OBJECT_OT_UpdateShader)
-    bpy.utils.unregister_class(OBJECT_OT_ResetShader)
+    unregister_properties()
+    bpy.utils.unregister_class(SHADER_PT_PlanetPanel)
+    bpy.utils.unregister_class(SHADER_OT_UpdatePlanetShader)
+    bpy.utils.unregister_class(SHADER_OT_CreatePlanetShader)
 
-    del bpy.types.Scene.planet_name
-    del bpy.types.Scene.selected_planet_name
-    del bpy.types.Scene.noise_scale
-    del bpy.types.Scene.noise_detail
-    del bpy.types.Scene.noise_roughness
-    del bpy.types.Scene.noise_distortion
-    del bpy.types.Scene.color_primary
-    del bpy.types.Scene.color_secondary
-    del bpy.types.Scene.color_mix_factor
-    del bpy.types.Scene.roughness
-    del bpy.types.Scene.metallic
-    del bpy.types.Scene.emission_strength
-
-    logger.info("Shader Panel and properties successfully unregistered!")
-
-
-# Main Function
 def main():
     register()
 

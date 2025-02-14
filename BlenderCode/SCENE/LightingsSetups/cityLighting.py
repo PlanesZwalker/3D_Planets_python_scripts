@@ -40,11 +40,10 @@ def create_volumetric_atmosphere():
     links.new(volume_absorption.outputs['Volume'], add_shader.inputs[1])
 
 def create_rim_light(target_object, intensity=2.0, color=(1.0, 0.6, 0.3, 1.0)):
-    """Creates a rim light to highlight the edges of planets"""
     bpy.ops.object.light_add(type='AREA', location=(3, -3, 0))
     rim_light = bpy.context.active_object
     rim_light.data.energy = intensity * 100
-    rim_light.data.color = color[:3]
+    rim_light.data.color = color[:3]  # Only use RGB components
     rim_light.data.shape = 'DISK'
     rim_light.data.size = 5
 
